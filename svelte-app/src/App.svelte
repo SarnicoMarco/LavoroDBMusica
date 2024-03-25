@@ -1,30 +1,63 @@
 <script>
-	export let name;
-</script>
-
-<main>
-	<h1>CIAO {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	let songs = [];
+  
+	// Funzione per caricare il file JSON
+	async function loadSongs() {
+	  const response = await fetch('songs.json');
+	  songs = await response.json();
 	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+  
+	// Carica i dati quando il componente viene montato
+	import { onMount } from 'svelte';
+	onMount(loadSongs);
+  </script>
+  
+  <style>
+	table {
+	  width: 100%;
+	  border-collapse: collapse;
+	  margin-top: 20px;
 	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+  
+	th, td {
+	  border: 1px solid #ccc;
+	  padding: 8px;
+	  text-align: left;
 	}
-</style>
+  
+	th {
+	  background-color: #f2f2f2;
+	}
+  </style>
+  
+  <h1>Elenco Canzoni</h1>
+  
+  <table>
+	<thead>
+	  <tr>
+		<th>Artista</th>
+		<th>Titolo</th>
+		<th>Anno</th>
+		<th>Vendite</th>
+		<th>Ascolti</th>
+		<th>Download</th>
+		<th>Riproduzioni in Radio</th>
+		<th>Valutazione</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {#each songs as song}
+		<tr>
+			<td>{song.Artist}</td>
+			<td>{song.Title}</td>
+			<td>{song.Year}</td>
+			<td>{song.Sales}</td>
+			<td>{song.Streams}</td>
+			<td>{song.Downloads}</td>
+			<td>{song['Radio Plays']}</td>
+			<td>{song.Rating}</td>
+		</tr>
+	  {/each}
+	</tbody>
+  </table>
+  
