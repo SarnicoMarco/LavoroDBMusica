@@ -1,20 +1,34 @@
+<!-- src/App.svelte -->
+
 <script>
-	import SongsTable from './SongsTable.svelte';
-	import SearchBar from './SearchBar.svelte';
-	import { onMount } from 'svelte';
-  
-	let searchText = '';
-  
-	onMount(async () => {
-	  // Carica i dati quando il componente viene montato
-	  // Implementa qui la logica per caricare i dati iniziali
-	});
-  </script>
-  
-  <h1>Elenco Canzoni</h1>
-  
-  <!-- Utilizzo del componente SearchBar -->
-  <SearchBar bind:searchText />
-  
-  <SongsTable {searchText} />
-  
+    import { onMount } from 'svelte';
+    import Home from './sezioni/Home.svelte';
+    import Canzoni from './sezioni/Canzoni/Canzoni.svelte';
+    import Quiz from './sezioni/Quiz/Quiz.svelte';
+    import Navbar from './Navbar.svelte';
+    import { currentSection } from './store/store.js';
+
+    onMount(() => {
+        currentSection.set('Home');
+    });
+
+    function navigateTo(section) {
+        currentSection.set(section);
+    }
+</script>
+
+<div class="page-container">
+    <!-- NavBar -->
+    <Navbar {currentSection} {navigateTo} />
+
+    <!-- Sezione dinamica -->
+    {#if $currentSection === 'Home'}
+        <Home />
+    {:else if $currentSection === 'Canzoni'}
+        <Canzoni />
+    {:else if $currentSection === 'Quiz'}
+        <Quiz />
+    {/if}
+</div>
+
+
