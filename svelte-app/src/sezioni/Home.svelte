@@ -16,13 +16,23 @@
 </div>
 
 <style>
-    /* Stili CSS per la sezione Home */
+    /* Colori principali */
+    :root {
+        --main-color: #6c5ce7;      /* Colore principale */
+        --background-color: #f8f9fa; /* Colore di sfondo */
+        --nav-green: #28a745;        /* Verde della navbar */
+        --black: #000000;            /* Nero */
+        --white: #ffffff;            /* Bianco */
+        --selected-green: #218838;   /* Verde selezionato */
+    }
+
+
     h1 {
-        color: #333;
+        color: var(--black); /* Nero */
     }
 
     p {
-        color: #666;
+        color: var(--black); /* Nero */
     }
 
     ul {

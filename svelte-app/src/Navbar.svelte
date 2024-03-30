@@ -16,17 +16,23 @@
 </div>
 
 <style>
+    /* Colori principali */
+    :root {
+        --main-color: #6c5ce7;      /* Colore principale */
+        --background-color: #f8f9fa; /* Colore di sfondo */
+    }
+
     .nav-bar {
-        background-color: var(--nav-green);
+        background-color: var(--main-color);  /* Colore principale */
         padding: 10px;
         border-radius: 8px;
         margin-bottom: 20px;
     }
 
     .selected {
-        background-color: var(--black);
-        color: var(--white);
-        border: 2px solid var(--green);
+        background-color: var(--background-color); /* Colore di sfondo */
+        color: var(--main-color);                   /* Colore principale */
+        border: 2px solid var(--main-color);         /* Colore principale */
         padding: 10px 20px;
         border-radius: 4px;
         margin-right: 10px;
@@ -34,7 +40,7 @@
 
     button {
         background-color: transparent;
-        color: var(--white);
+        color: var(--background-color);  /* Colore di sfondo */
         border: none;
         padding: 10px 20px;
         border-radius: 4px;
@@ -43,6 +49,7 @@
     }
 
     button:hover {
-        background-color: var(--selected-green);
+        background-color: var(--main-color); /* Colore principale */
+        color: var(--background-color);      /* Colore di sfondo */
     }
 </style>

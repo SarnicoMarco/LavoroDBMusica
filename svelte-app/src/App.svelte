@@ -32,3 +32,23 @@
 </div>
 
 
+<style>
+    /* Colori principali */
+    :root {
+        --main-color: #6c5ce7;      /* Colore principale */
+        --background-color: #f8f9fa; /* Colore di sfondo */
+        --nav-green: #28a745;        /* Verde della navbar */
+        --black: #000000;            /* Nero */
+        --white: #ffffff;            /* Bianco */
+        --selected-green: #218838;   /* Verde selezionato */
+    }
+
+    .page-container {
+        background-color: var(--background-color); /* Colore di sfondo */
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    /* Aggiungi altri stili necessari per armonizzare con il design generale */
+
+</style>
