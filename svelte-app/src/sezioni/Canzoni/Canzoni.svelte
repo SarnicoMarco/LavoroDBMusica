@@ -8,14 +8,20 @@
     let sortField = 'Rating';
     let sortOrder = 'desc';  // 'asc' o 'desc'
 
-    // Funzione per caricare il file JSON
+    // Carica i dati dal local storage o effettua una nuova richiesta
     async function loadSongs() {
         try {
-            const response = await fetch('/songs.json');  // Assumendo che il file sia nella root del server
-            if (!response.ok) {
-                throw new Error('Errore nel caricamento dei dati delle canzoni');
+            const storedSongs = localStorage.getItem('songs');
+            if (storedSongs) {
+                songs = JSON.parse(storedSongs);
+            } else {
+                const response = await fetch('/songs.json');
+                if (!response.ok) {
+                    throw new Error('Errore nel caricamento dei dati delle canzoni');
+                }
+                songs = await response.json();
+                localStorage.setItem('songs', JSON.stringify(songs));
             }
-            songs = await response.json();
             isLoading = false;
         } catch (error) {
             console.error(error.message);
@@ -25,7 +31,6 @@
         }
     }
 
-    // Carica i dati quando il componente viene montato
     import { onMount } from 'svelte';
     onMount(loadSongs);
 
@@ -38,7 +43,7 @@
         : songs;
 
     // Funzione per ordinare le canzoni in base al campo selezionato e all'ordine
-    $: sortedSongs = filteredSongs.sort((a, b) => {
+    $: sortedSongs = [...filteredSongs].sort((a, b) => {
         if (sortOrder === 'asc') {
             return a[sortField] - b[sortField];
         } else {
@@ -46,6 +51,7 @@
         }
     });
 </script>
+
 
 <style>
     /* Stili per la tabella */
@@ -140,9 +146,23 @@
 {:else}
     <div class="background">
         <table>
+            <thead>
+                <tr>
+                    <th>#</th> <!-- Indice -->
+                    <th>Artista</th>
+                    <th>Titolo</th>
+                    <th>Anno</th>
+                    <th>Vendite</th>
+                    <th>Ascolti</th>
+                    <th>Download</th>
+                    <th>Radio Plays</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
             <tbody>
-                {#each sortedSongs as song}
+                {#each sortedSongs as song, index}
                     <tr>
+                        <td>{index + 1}</td> <!-- Incrementa l'indice per partire da 1 -->
                         <td>{song.Artist}</td>
                         <td>{song.Title}</td>
                         <td>{song.Year}</td>

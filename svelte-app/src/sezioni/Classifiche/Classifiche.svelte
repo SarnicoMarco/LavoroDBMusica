@@ -2,25 +2,29 @@
     export let songs = [];
 
     // Raggruppa le canzoni per artista e calcola la media del Rating
-    let artists = {};
-    Object.values(songs).forEach(song => {
-        if (!artists[song.Artist]) {
-            artists[song.Artist] = {
+    const artists = songs.reduce((acc, song) => {
+        if (!acc[song.Artist]) {
+            acc[song.Artist] = {
                 totalRating: 0,
                 songCount: 0,
                 averageRating: 0
             };
         }
-        artists[song.Artist].totalRating += parseFloat(song.Rating);
-        artists[song.Artist].songCount++;
-        artists[song.Artist].averageRating = artists[song.Artist].totalRating / artists[song.Artist].songCount;
-    });
+        acc[song.Artist].totalRating += parseFloat(song.Rating);
+        acc[song.Artist].songCount++;
+        acc[song.Artist].averageRating = acc[song.Artist].totalRating / acc[song.Artist].songCount;
+        return acc;
+    }, {});
 
     // Converti l'oggetto degli artisti in un array e ordina per averageRating
-    let sortedArtists = Object.entries(artists).sort((a, b) => b[1].averageRating - a[1].averageRating).slice(0, 20);
+    const sortedArtists = Object.entries(artists)
+        .sort((a, b) => b[1].averageRating - a[1].averageRating)
+        .slice(0, 20);
 
     // Ordina le canzoni per Rating
-    let sortedSongs = songs.sort((a, b) => parseFloat(b.Rating) - parseFloat(a.Rating)).slice(0, 20);
+    const sortedSongs = songs
+        .sort((a, b) => parseFloat(b.Rating) - parseFloat(a.Rating))
+        .slice(0, 20);
 </script>
 
 <style>
