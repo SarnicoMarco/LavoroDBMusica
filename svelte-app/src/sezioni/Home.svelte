@@ -6,7 +6,7 @@
 
 <div class="home-container">
     <h1>Benvenuto nel mio Sito!</h1>
-    <p>Questo è un sito di esempio dedicato alla musica. Scopri le ultime novità, sfida te stesso con il nostro quiz e tanto altro!</p>
+    <p>Questo è un sito dedicato alla musica. Scopri le ultime novità, sfida te stesso con il nostro quiz e tanto altro!</p>
 
     <h2>Sezioni Disponibili:</h2>
     <ul>
@@ -25,7 +25,7 @@
     /* Colori principali */
     :root {
         --main-color: #6c5ce7;      /* Colore principale */
-        --background-color: #f8f9fa; /* Colore di sfondo */
+        --background-color: #ffffff; /* Colore di sfondo */
         --nav-green: #28a745;        /* Verde della navbar */
         --black: #000000;            /* Nero */
         --white: #ffffff;            /* Bianco */
