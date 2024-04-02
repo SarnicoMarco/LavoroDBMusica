@@ -6,6 +6,7 @@
     import Classifiche from './sezioni/Classifiche/Classifiche.svelte';  
     import Preferiti from './sezioni/Preferiti/Preferiti.svelte';  // Importa la nuova sezione Preferiti
     import Navbar from './Navbar.svelte';
+    import Footer from './Footer.svelte';
     import { currentSection } from './store/store.js';
 
     let songs = [];
@@ -23,10 +24,11 @@
     }
 </script>
 
+
 <div class="page-container">
     <!-- NavBar -->
     <Navbar {currentSection} {navigateTo} />
-
+    
     <!-- Sezione dinamica -->
     {#if $currentSection === 'Home'}
         <Home />
@@ -39,4 +41,5 @@
     {:else if $currentSection === 'Preferiti'}  <!-- Aggiunta la nuova sezione Preferiti -->
         <Preferiti />
     {/if}
+    <Footer />
 </div>

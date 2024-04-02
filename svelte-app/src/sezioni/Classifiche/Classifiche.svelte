@@ -1,7 +1,7 @@
 <script>
     export let songs = [];
 
-    // Raggruppa le canzoni per artista e calcola la media del Rating
+    
     let artists = {};
     Object.values(songs).forEach(song => {
         if (!artists[song.Artist]) {
@@ -16,15 +16,15 @@
         artists[song.Artist].averageRating = artists[song.Artist].totalRating / artists[song.Artist].songCount;
     });
 
-    // Converti l'oggetto degli artisti in un array e ordina per averageRating
+    
     let sortedArtists = Object.entries(artists).sort((a, b) => b[1].averageRating - a[1].averageRating).slice(0, 20);
 
-    // Ordina le canzoni per Rating
+   
     let sortedSongs = songs.sort((a, b) => parseFloat(b.Rating) - parseFloat(a.Rating)).slice(0, 20);
 </script>
 
 <style>
-    /* Stili per la classifica */
+   
     .background {
         max-width: 800px;
         margin: 40px auto;
@@ -51,7 +51,7 @@
 
 <div class="background">
     <h2>Classifica degli Artisti per Media del Rating</h2>
-    <!-- Tabella Artisti -->
+   
     <table>
         <thead>
             <tr>
@@ -70,7 +70,7 @@
     </table>
 
     <h2>Top 20 Canzoni per Rating</h2>
-    <!-- Tabella Canzoni -->
+    
     <table>
         <thead>
             <tr>

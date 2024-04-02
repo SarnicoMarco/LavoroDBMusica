@@ -1,4 +1,3 @@
-<!-- Canzoni.svelte -->
 
 <script>
     import { onMount } from 'svelte';
@@ -71,8 +70,8 @@
     }
 
     .favorite-button.added {
-        color: #ffffff; /* bianco */
-        background-color: #4CAF50; /* verde */
+        color: #ffffff; 
+        background-color: #4CAF50; 
     }
 </style>
 
