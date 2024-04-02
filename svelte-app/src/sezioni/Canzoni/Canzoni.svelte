@@ -29,7 +29,6 @@
 </script>
 
 <style>
-    /* Stili per la tabella */
     table {
         width: 100%;
         border-collapse: collapse;
