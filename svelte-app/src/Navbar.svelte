@@ -13,7 +13,8 @@
     <button on:click={() => navigateTo('Home')} class:selected={isActive('Home')}>Home</button>
     <button on:click={() => navigateTo('Canzoni')} class:selected={isActive('Canzoni')}>Canzoni</button>
     <button on:click={() => navigateTo('Quiz')} class:selected={isActive('Quiz')}>Quiz</button>
-    <button on:click={() => navigateTo('Classifiche')} class:selected={isActive('Classifiche')}>Classifiche</button> 
+    <button on:click={() => navigateTo('Classifiche')} class:selected={isActive('Classifiche')}>Classifiche</button>
+    <button on:click={() => navigateTo('Preferiti')} class:selected={isActive('Preferiti')}>Preferiti</button> <!-- Aggiunto il pulsante per i Preferiti -->
 </div>
 
 <style>

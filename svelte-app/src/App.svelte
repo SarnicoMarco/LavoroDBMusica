@@ -4,6 +4,7 @@
     import Canzoni from './sezioni/Canzoni/Canzoni.svelte';
     import Quiz from './sezioni/Quiz/Quiz.svelte';
     import Classifiche from './sezioni/Classifiche/Classifiche.svelte';  
+    import Preferiti from './sezioni/Preferiti/Preferiti.svelte';  // Importa la nuova sezione Preferiti
     import Navbar from './Navbar.svelte';
     import { currentSection } from './store/store.js';
 
@@ -35,5 +36,7 @@
         <Quiz />
     {:else if $currentSection === 'Classifiche'}
         <Classifiche {songs} />
+    {:else if $currentSection === 'Preferiti'}  <!-- Aggiunta la nuova sezione Preferiti -->
+        <Preferiti />
     {/if}
 </div>

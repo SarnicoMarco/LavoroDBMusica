@@ -1,50 +1,32 @@
+<!-- Canzoni.svelte -->
+
 <script>
-    export let searchText = '';
+    import { onMount } from 'svelte';
+    import { favoriteSongs } from '../../store/store.js';
+
     let songs = [];
+    let favoriteList = [];
     let isLoading = true;
-    let isError = false;
-    let errorMessage = '';
 
-    let sortField = 'Rating';
-    let sortOrder = 'desc';  // 'asc' o 'desc'
+    onMount(async () => {
+        const response = await fetch('/songs.json');
+        songs = await response.json();
+        favoriteList = $favoriteSongs;
+        isLoading = false;
+    });
 
-    // Funzione per caricare il file JSON
-    async function loadSongs() {
-        try {
-            const response = await fetch('/songs.json');  // Assumendo che il file sia nella root del server
-            if (!response.ok) {
-                throw new Error('Errore nel caricamento dei dati delle canzoni');
-            }
-            songs = await response.json();
-            isLoading = false;
-        } catch (error) {
-            console.error(error.message);
-            isLoading = false;
-            isError = true;
-            errorMessage = 'Si è verificato un errore durante il caricamento dei dati';
+    function toggleFavorite(song) {
+        if (favoriteList.includes(song)) {
+            favoriteList = favoriteList.filter(fav => fav !== song);
+        } else {
+            favoriteList = [...favoriteList, song];
         }
+        favoriteSongs.set(favoriteList);
     }
 
-    // Carica i dati quando il componente viene montato
-    import { onMount } from 'svelte';
-    onMount(loadSongs);
-
-    // Funzione per filtrare le canzoni in base al testo di ricerca
-    $: filteredSongs = searchText
-        ? songs.filter(song => 
-            song.Artist.toLowerCase().includes(searchText.toLowerCase()) || 
-            song.Title.toLowerCase().includes(searchText.toLowerCase())
-        )
-        : songs;
-
-    // Funzione per ordinare le canzoni in base al campo selezionato e all'ordine
-    $: sortedSongs = filteredSongs.sort((a, b) => {
-        if (sortOrder === 'asc') {
-            return a[sortField] - b[sortField];
-        } else {
-            return b[sortField] - a[sortField];
-        }
-    });
+    function isFavorite(song) {
+        return favoriteList.includes(song);
+    }
 </script>
 
 <style>
@@ -70,78 +52,51 @@
         background-color: #f1f1f1;
     }
 
-    /* Stili per la barra di ricerca e filtri */
-    .search-container {
-        margin-bottom: 20px;
-    }
-
-    .search-bar, .filter-container {
+    .favorite-button {
+        padding: 8px 12px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border-radius: 4px;
+        width: 30px;
+        height: 30px;
         display: flex;
+        justify-content: center;
         align-items: center;
-        justify-content: space-between;
-        background-color: #f8f8f8;
-        padding: 10px;
-        border-radius: 5px;
     }
 
-    .search-bar label, .filter-container label {
-        margin-right: 10px;
-        color: var(--black);
+    .favorite-button.square {
+        background-color: transparent;
     }
 
-    .search-bar input {
-        flex-grow: 1;
-        padding: 8px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-    }
-
-    .filter-container select {
-        padding: 8px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        font-size: 16px;
+    .favorite-button.added {
+        color: #ffffff; /* bianco */
+        background-color: #4CAF50; /* verde */
     }
 </style>
 
-<!-- Searchbar e Filtro -->
-<div class="search-container">
-    <div class="search-bar">
-        <label for="searchInput">Cerca per artista o titolo:</label>
-        <input type="text" id="searchInput" bind:value={searchText} placeholder="Inserisci il testo di ricerca...">
-    </div>
-
-    <!-- Filtri -->
-    <div class="filter-container">
-        <label for="sortField">Ordina per:</label>
-        <select id="sortField" bind:value={sortField}>
-            <option value="Year">Anno</option>
-            <option value="Sales">Vendite</option>
-            <option value="Streams">Ascolti</option>
-            <option value="Downloads">Download</option>
-            <option value="Radio Plays">Radio Plays</option>
-            <option value="Rating">Rating</option>
-        </select>
-
-        <label for="sortOrder">Ordine:</label>
-        <select id="sortOrder" bind:value={sortOrder}>
-            <option value="asc">Crescente</option>
-            <option value="desc">Decrescente</option>
-        </select>
-    </div>
-</div>
-
-<!-- Gestione dell'errore e Tabella delle canzoni -->
-{#if isError}
-    <div class="error-message">{errorMessage}</div>
-{:else if isLoading}
-    <div class="background">Caricamento...</div>
-{:else}
-    <div class="background">
+<div class="background">
+    <h2>Canzoni</h2>
+    {#if isLoading}
+        <div class="loading">Caricamento...</div>
+    {:else}
         <table>
+            <thead>
+                <tr>
+                    <th>Artista</th>
+                    <th>Titolo</th>
+                    <th>Anno</th>
+                    <th>Vendite</th>
+                    <th>Ascolti</th>
+                    <th>Download</th>
+                    <th>Radio Plays</th>
+                    <th>Rating</th>
+                    <th>Azione</th>
+                </tr>
+            </thead>
             <tbody>
-                {#each sortedSongs as song}
+                {#each songs as song}
                     <tr>
                         <td>{song.Artist}</td>
                         <td>{song.Title}</td>
@@ -151,9 +106,12 @@
                         <td>{song.Downloads}</td>
                         <td>{song['Radio Plays']}</td>
                         <td>{song.Rating}</td>
+                        <td>
+                            <button class="favorite-button square added" on:click={() => toggleFavorite(song)}>&#43;</button>
+                        </td>
                     </tr>
                 {/each}
             </tbody>
         </table>
-    </div>
-{/if}
+    {/if}
+</div>
